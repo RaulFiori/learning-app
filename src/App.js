@@ -2,21 +2,28 @@ import React from 'react';
 import { hot } from 'react-hot-loader';
 import { ThemeProvider } from '@material-ui/styles';
 
-import { Typography } from '@material-ui/core';
-// import Button from './components/Button';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+import { faEdit, faFile, faTrash } from '@fortawesome/free-solid-svg-icons';
+
+import { grey } from '@material-ui/core/colors';
 import theme from './theme/theme';
 import AppBar from './components/AppBar';
+import Files from './pages/Files';
+
+library.add(faEdit, faFile, faTrash);
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <AppBar title="Title" />
+      <AppBar title="Meu Dropbox" />
       <main
         style={{
-          marginTop: '64px'
+          marginTop: '64px',
+          backgroundColor: grey[200]
         }}
       >
-        <Typography align="center">hello</Typography>
+        <Files />
       </main>
     </ThemeProvider>
   );

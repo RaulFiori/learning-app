@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "yarn jest",
-    "start": "webpack-dev-server --mode development"
+    "start": "webpack-dev-server --mode development",
+    "relay": "relay-compiler --src ./src --schema ./schema.graphql --extensions js jsx"
   },
   "keywords": [
     "react",
@@ -30,18 +31,27 @@
     "eslint-plugin-react": "^7.13.0",
     "jest": "^24.8.0",
     "prettier": "^1.17.1",
+    "relay-compiler": "^5.0.0",
     "style-loader": "0.23.0",
     "webpack": "4.19.1",
     "webpack-cli": "3.1.1",
     "webpack-dev-server": "3.1.8"
   },
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "@material-ui/core": "^4.0.1",
     "@material-ui/styles": "^4.0.1",
+    "babel-plugin-relay": "^5.0.0",
+    "graphql": "^14.3.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-hot-loader": "4.8.8",
-    "react-test-renderer": "^16.8.6"
+    "react-relay": "^5.0.0",
+    "react-test-renderer": "^16.8.6",
+    "relay-runtime": "^5.0.0"
   }
 }

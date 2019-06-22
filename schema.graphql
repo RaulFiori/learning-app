@@ -1,0 +1,23 @@
+type Query {
+  files: [File]
+  file(id: String): File
+  hello: String
+}
+
+type Mutation {
+  createFile(file: FileInput!): File
+  updateFile(file: FileInput!): File
+  deleteFile(id: String!): String
+}
+
+input FileInput {
+  id: ID
+  name: String
+  docType: String
+}
+
+type File {
+  id: ID!
+  name: String
+  docType: String
+}
