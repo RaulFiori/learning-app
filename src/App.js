@@ -4,14 +4,19 @@ import { ThemeProvider } from '@material-ui/styles';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
-import { faEdit, faFile, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEdit,
+  faFile,
+  faTrash,
+  faPlus
+} from '@fortawesome/free-solid-svg-icons';
 
 import { grey } from '@material-ui/core/colors';
 import theme from './theme/theme';
 import AppBar from './components/AppBar';
 import Files from './pages/Files';
 
-library.add(faEdit, faFile, faTrash);
+library.add(faEdit, faFile, faTrash, faPlus);
 
 const App = () => {
   return (
