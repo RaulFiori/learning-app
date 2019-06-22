@@ -1,13 +1,8 @@
-type Query {
-  files: [File]
-  file(id: String): File
-  hello: String
-}
-
-type Mutation {
-  createFile(file: FileInput!): File
-  updateFile(file: FileInput!): File
-  deleteFile(id: String!): String
+type File {
+  id: ID!
+  name: String
+  docType: String
+  createdAt: String
 }
 
 input FileInput {
@@ -16,8 +11,13 @@ input FileInput {
   docType: String
 }
 
-type File {
-  id: ID!
-  name: String
-  docType: String
+type Mutation {
+  createFile(file: FileInput!): File
+  updateFile(file: FileInput!): File
+  deleteFile(id: String!): String
+}
+
+type Query {
+  files: [File]
+  file(id: String): File
 }

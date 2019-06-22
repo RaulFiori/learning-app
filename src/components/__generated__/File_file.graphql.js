@@ -15,6 +15,7 @@ export type File_file = {|
   +id: string,
   +name: ?string,
   +docType: ?string,
+  +createdAt: ?string,
   +$refType: File_file$ref,
 |};
 export type File_file$data = File_file;
@@ -52,9 +53,16 @@ const node/*: ReaderFragment*/ = {
       "name": "docType",
       "args": null,
       "storageKey": null
+    },
+    {
+      "kind": "ScalarField",
+      "alias": null,
+      "name": "createdAt",
+      "args": null,
+      "storageKey": null
     }
   ]
 };
 // prettier-ignore
-(node/*: any*/).hash = 'a27fe880bae0343e2eb2157c0761cd7a';
+(node/*: any*/).hash = '8d3888293f78947b65222b4a19424c5c';
 module.exports = node;

@@ -12,7 +12,7 @@ const {
 
 const graphQLFile = path.join(__dirname, '../../schema.graphql');
 
-fetch(`http://localhost:4000/graphql`, {
+fetch(`http://localhost:4000/`, {
   method: 'POST',
   headers: {
     Accept: 'application/json',

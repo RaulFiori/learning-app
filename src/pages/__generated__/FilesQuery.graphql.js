@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 62a60cf123cb5df6e2fbe422fcf7ce36
+ * @relayHash a55287b7b70a1f0290c9579696748e01
  */
 
 /* eslint-disable */
@@ -36,6 +36,7 @@ fragment File_file on File {
   id
   name
   docType
+  createdAt
 }
 */
 
@@ -103,6 +104,13 @@ return {
             "name": "docType",
             "args": null,
             "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "name": "createdAt",
+            "args": null,
+            "storageKey": null
           }
         ]
       }
@@ -112,7 +120,7 @@ return {
     "operationKind": "query",
     "name": "FilesQuery",
     "id": null,
-    "text": "query FilesQuery {\n  files {\n    id\n    ...File_file\n  }\n}\n\nfragment File_file on File {\n  id\n  name\n  docType\n}\n",
+    "text": "query FilesQuery {\n  files {\n    id\n    ...File_file\n  }\n}\n\nfragment File_file on File {\n  id\n  name\n  docType\n  createdAt\n}\n",
     "metadata": {}
   }
 };

@@ -33,8 +33,6 @@ const deleteMutation = graphql`
 `;
 
 const onDelete = fileId => () => {
-  console.log('on delete:', fileId);
-
   commitMutation({
     variables: { fileId },
     mutation: deleteMutation,
@@ -55,14 +53,17 @@ const onDelete = fileId => () => {
 
 function File(props) {
   const {
-    file: { name, id },
+    file: { name, id, createdAt, docType },
     classes: { card, content, button }
   } = props;
 
   return (
     <Card className={card}>
       <CardContent className={content}>
-        <Typography>{name}</Typography>
+        <Grid>
+          <Typography>{`${name}${docType}`}</Typography>
+          <Typography variant="caption">{`Criado: ${createdAt}`}</Typography>
+        </Grid>
         <Grid>
           <IconButton className={button}>
             <FontAwesomeIcon icon="edit" />
@@ -94,6 +95,7 @@ const fragment = createFragmentContainer(File, {
       id
       name
       docType
+      createdAt
     }
   `
 });
