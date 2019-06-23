@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { graphql } from 'react-relay';
 import {
   Dialog,
   DialogContent,
@@ -9,19 +10,65 @@ import {
   DialogTitle
 } from '@material-ui/core';
 import Title from '../components/Title';
+import commitMutation from '../relay/commitMutation';
 
 const INITIAL_STATE = {
   name: '',
   docType: ''
 };
 
+const createMutation = graphql`
+  mutation FileDialogCreateMutation($file: FileInput!) {
+    createFile(file: $file) {
+      id
+      ...File_file
+    }
+  }
+`;
+
 class FileDialog extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      ...INITIAL_STATE
-    };
+    this.state = this.isCreation()
+      ? {
+          ...INITIAL_STATE
+        }
+      : {
+          name: props.file.name,
+          docType: props.file.docType
+        };
   }
+
+  isCreation = file => {
+    return file === null;
+  };
+
+  createFile = event => {
+    event.preventDefault();
+
+    commitMutation({
+      mutation: createMutation,
+      variables: { file: { ...this.state } },
+      onError: error => {
+        console.log('error: ', error);
+      },
+      onCompleted: () => {
+        this.resetAndClose();
+      },
+      updater: this.updateStore
+    });
+  };
+
+  updateStore = (store, data) => {
+    const {
+      createFile: { id }
+    } = data;
+    const root = store.get('client:root');
+    const files = root.getLinkedRecords('files');
+    const newFile = store.get(id);
+
+    root.setLinkedRecords([newFile, ...files], 'files');
+  };
 
   resetAndClose = () => {
     const { onClose } = this.props;
@@ -40,8 +87,8 @@ class FileDialog extends Component {
         <DialogTitle disableTypography>
           <Title color="primary">Criar arquivo</Title>
         </DialogTitle>
-        <DialogContent>
-          <form>
+        <form onSubmit={this.createFile}>
+          <DialogContent>
             <TextField
               value={name}
               fullWidth
@@ -54,14 +101,14 @@ class FileDialog extends Component {
               placeholder="Tipo de arquivo"
               onChange={this.onChangeField('docType')}
             />
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this.resetAndClose}>Cancelar</Button>
-          <Button variant="contained" color="primary">
-            Criar
-          </Button>
-        </DialogActions>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.resetAndClose}>Cancelar</Button>
+            <Button type="submit" variant="contained" color="primary">
+              Criar
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     );
   }
@@ -69,7 +116,16 @@ class FileDialog extends Component {
 
 FileDialog.propTypes = {
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  file: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    docType: PropTypes.string.isRequired
+  })
+};
+
+FileDialog.defaultProps = {
+  file: null
 };
 
 export default FileDialog;
