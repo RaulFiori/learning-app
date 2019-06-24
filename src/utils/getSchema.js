@@ -28,7 +28,7 @@ fetch(`http://localhost:4000/`, {
   .catch(error => {
     if (error.code === 'ECONNREFUSED') {
       console.log(
-        chalk.red(`Connection error, no api runnin on http://localhost:5000`)
+        chalk.red(`Connection error, no api runnin on http://localhost:4000`)
       );
     }
   });

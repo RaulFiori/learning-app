@@ -28,7 +28,6 @@ class Files extends Component {
 
   goToFolders = () => {
     const { history } = this.props;
-    console.log('aqui');
     history.push('/folders');
   };
 
