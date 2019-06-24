@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-relay';
+import { withRouter } from 'react-router-dom';
 import { Grid, IconButton, Button } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import withQuery from '../relay/withQuery';
@@ -23,6 +24,12 @@ class Files extends Component {
   onEdit = file => () => {
     this.setState({ selectedFile: file });
     this.openDialog();
+  };
+
+  goToFolders = () => {
+    const { history } = this.props;
+    console.log('aqui');
+    history.push('/folders');
   };
 
   openDialog = () => this.setState({ dialogOpen: true });
@@ -51,7 +58,7 @@ class Files extends Component {
           <IconButton onClick={this.openDialog} style={{ fontSize: '1rem' }}>
             <FontAwesomeIcon icon="plus" />
           </IconButton>
-          <Button>Ir para Pastas</Button>
+          <Button onClick={this.goToFolders}>Ir para Pastas</Button>
         </Grid>
         {files.map(file => (
           <File file={file} key={file.id} onEdit={this.onEdit} />
@@ -62,10 +69,13 @@ class Files extends Component {
 }
 
 Files.propTypes = {
-  files: PropTypes.array.isRequired
+  files: PropTypes.array.isRequired,
+  history: PropTypes.object.isRequired
 };
 
-export default withQuery(Files, {
+const router = withRouter(Files);
+
+export default withQuery(router, {
   query: graphql`
     query FilesQuery {
       files {

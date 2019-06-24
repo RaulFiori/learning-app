@@ -1,6 +1,7 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
 import { ThemeProvider } from '@material-ui/styles';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -15,6 +16,7 @@ import { grey } from '@material-ui/core/colors';
 import theme from './theme/theme';
 import AppBar from './components/AppBar';
 import Files from './pages/Files';
+import Folders from './pages/Folders';
 
 library.add(faEdit, faFile, faTrash, faPlus);
 
@@ -28,7 +30,10 @@ const App = () => {
           backgroundColor: grey[200]
         }}
       >
-        <Files />
+        <Router>
+          <Route path="/" exact component={Files} />
+          <Route path="/folders" component={Folders} />
+        </Router>
       </main>
     </ThemeProvider>
   );

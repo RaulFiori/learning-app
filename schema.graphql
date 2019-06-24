@@ -11,6 +11,12 @@ input FileInput {
   docType: String
 }
 
+type Folder {
+  id: ID!
+  name: String
+  createdAt: String
+}
+
 type Mutation {
   createFile(file: FileInput!): File
   updateFile(file: FileInput!): File
@@ -20,4 +26,5 @@ type Mutation {
 type Query {
   files: [File]
   file(id: String): File
+  folders: [Folder]
 }

@@ -51,6 +51,7 @@
     "react-dom": "^16.8.6",
     "react-hot-loader": "4.8.8",
     "react-relay": "^5.0.0",
+    "react-router-dom": "^5.0.1",
     "react-test-renderer": "^16.8.6",
     "relay-runtime": "^5.0.0"
   }
