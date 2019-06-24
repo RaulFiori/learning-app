@@ -54,6 +54,8 @@ const onDelete = fileId => () => {
 function File(props) {
   const {
     file: { name, id, createdAt, docType },
+    file,
+    onEdit,
     classes: { card, content, button }
   } = props;
 
@@ -65,7 +67,7 @@ function File(props) {
           <Typography variant="caption">{`Criado: ${createdAt}`}</Typography>
         </Grid>
         <Grid>
-          <IconButton className={button}>
+          <IconButton onClick={onEdit(file)} className={button}>
             <FontAwesomeIcon icon="edit" />
           </IconButton>
           <IconButton onClick={onDelete(id)} className={button}>
@@ -86,7 +88,8 @@ File.propTypes = {
   classes: PropTypes.shape({
     card: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  onEdit: PropTypes.func.isRequired
 };
 
 const fragment = createFragmentContainer(File, {

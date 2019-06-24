@@ -26,36 +26,69 @@ const createMutation = graphql`
   }
 `;
 
+const editMutation = graphql`
+  mutation FileDialogEditMutation($file: FileInput!) {
+    updateFile(file: $file) {
+      ...File_file
+    }
+  }
+`;
+
 class FileDialog extends Component {
   constructor(props) {
     super(props);
-    this.state = this.isCreation()
-      ? {
-          ...INITIAL_STATE
-        }
-      : {
-          name: props.file.name,
-          docType: props.file.docType
-        };
+    this.state = {
+      ...INITIAL_STATE
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    const { file } = this.props;
+    const { file: prevFile } = prevProps;
+
+    if (file !== prevFile && !this.isCreation(file)) {
+      this.setState({
+        name: file.name,
+        docType: file.docType
+      });
+    }
   }
 
   isCreation = file => {
     return file === null;
   };
 
+  getMutationVaribles = () => {
+    const { file } = this.props;
+    const { name, docType } = this.state;
+
+    if (this.isCreation(file)) {
+      return {
+        mutation: createMutation,
+        updater: this.updateStore,
+        variables: { file: { name, docType } }
+      };
+    }
+
+    return {
+      mutation: editMutation,
+      variables: { file: { id: file.id, name, docType } }
+    };
+  };
+
   createFile = event => {
     event.preventDefault();
 
+    const mutationVariables = this.getMutationVaribles();
+
     commitMutation({
-      mutation: createMutation,
-      variables: { file: { ...this.state } },
+      ...mutationVariables,
       onError: error => {
         console.log('error: ', error);
       },
       onCompleted: () => {
         this.resetAndClose();
-      },
-      updater: this.updateStore
+      }
     });
   };
 

@@ -8,7 +8,8 @@ import File from '../components/File';
 import FileDialog from '../context-components/FileDialog';
 
 const INITIAL_STATE = {
-  dialogOpen: false
+  dialogOpen: false,
+  selectedFile: null
 };
 
 class Files extends Component {
@@ -19,16 +20,26 @@ class Files extends Component {
     };
   }
 
+  onEdit = file => () => {
+    this.setState({ selectedFile: file });
+    this.openDialog();
+  };
+
   openDialog = () => this.setState({ dialogOpen: true });
 
-  closeDialog = () => this.setState({ dialogOpen: false });
+  closeDialog = () => this.setState({ dialogOpen: false, selectedFile: null });
 
   render() {
     const { files } = this.props;
-    const { dialogOpen } = this.state;
+    const { dialogOpen, selectedFile } = this.state;
+
     return (
       <Grid style={{ padding: '16px' }}>
-        <FileDialog open={dialogOpen} onClose={this.closeDialog} />
+        <FileDialog
+          file={selectedFile}
+          open={dialogOpen}
+          onClose={this.closeDialog}
+        />
         <Grid
           style={{
             display: 'flex',
@@ -43,7 +54,7 @@ class Files extends Component {
           <Button>Ir para Pastas</Button>
         </Grid>
         {files.map(file => (
-          <File file={file} key={file.id} />
+          <File file={file} key={file.id} onEdit={this.onEdit} />
         ))}
       </Grid>
     );
