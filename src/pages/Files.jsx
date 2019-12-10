@@ -7,11 +7,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import withQuery from '../relay/withQuery';
 import File from '../components/File';
 import FileDialog from '../context-components/FileDialog';
+import requestSubscription from '../relay/requestSubscription';
 
 const INITIAL_STATE = {
   dialogOpen: false,
   selectedFile: null
 };
+
+const subscription = graphql`
+  subscription FilesSubscription {
+    fileEdited {
+      id
+      ...File_file
+    }
+  }
+`;
 
 class Files extends Component {
   constructor(props) {
@@ -19,6 +29,19 @@ class Files extends Component {
     this.state = {
       ...INITIAL_STATE
     };
+  }
+
+  componentDidMount() {
+    this.subscription = requestSubscription({
+      subscription,
+      variables: {},
+      onError: error => console.error(error),
+      onCompleted: () => console.log('connection ended')
+    });
+  }
+
+  componentWillUnmount() {
+    this.subscription.dispose();
   }
 
   onEdit = file => () => {

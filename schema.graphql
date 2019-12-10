@@ -28,3 +28,7 @@ type Query {
   file(id: String): File
   folders: [Folder]
 }
+
+type Subscription {
+  fileEdited: File
+}
