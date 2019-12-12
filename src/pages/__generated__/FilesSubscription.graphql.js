@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 76ce4a993cc9614ab65ffe555a291fef
+ * @relayHash b8dd1729e3eb2578d6a74fc83fb49770
  */
 
 /* eslint-disable */
@@ -12,9 +12,15 @@ import type { ConcreteRequest } from 'relay-runtime';
 type File_file$ref = any;
 export type FilesSubscriptionVariables = {||};
 export type FilesSubscriptionResponse = {|
-  +fileEdited: ?{|
-    +id: string,
-    +$fragmentRefs: File_file$ref,
+  +fileChange: ?{|
+    +fileEdited: ?{|
+      +id: string,
+      +$fragmentRefs: File_file$ref,
+    |},
+    +fileCreated: ?{|
+      +id: string,
+      +$fragmentRefs: File_file$ref,
+    |},
   |}
 |};
 export type FilesSubscription = {|
@@ -26,9 +32,15 @@ export type FilesSubscription = {|
 
 /*
 subscription FilesSubscription {
-  fileEdited {
-    id
-    ...File_file
+  fileChange {
+    fileEdited {
+      id
+      ...File_file
+    }
+    fileCreated {
+      id
+      ...File_file
+    }
   }
 }
 
@@ -47,7 +59,39 @@ var v0 = {
   "name": "id",
   "args": null,
   "storageKey": null
-};
+},
+v1 = [
+  (v0/*: any*/),
+  {
+    "kind": "FragmentSpread",
+    "name": "File_file",
+    "args": null
+  }
+],
+v2 = [
+  (v0/*: any*/),
+  {
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "name",
+    "args": null,
+    "storageKey": null
+  },
+  {
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "docType",
+    "args": null,
+    "storageKey": null
+  },
+  {
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "createdAt",
+    "args": null,
+    "storageKey": null
+  }
+];
 return {
   "kind": "Request",
   "fragment": {
@@ -60,17 +104,31 @@ return {
       {
         "kind": "LinkedField",
         "alias": null,
-        "name": "fileEdited",
+        "name": "fileChange",
         "storageKey": null,
         "args": null,
-        "concreteType": "File",
+        "concreteType": "FileSubscription",
         "plural": false,
         "selections": [
-          (v0/*: any*/),
           {
-            "kind": "FragmentSpread",
-            "name": "File_file",
-            "args": null
+            "kind": "LinkedField",
+            "alias": null,
+            "name": "fileEdited",
+            "storageKey": null,
+            "args": null,
+            "concreteType": "File",
+            "plural": false,
+            "selections": (v1/*: any*/)
+          },
+          {
+            "kind": "LinkedField",
+            "alias": null,
+            "name": "fileCreated",
+            "storageKey": null,
+            "args": null,
+            "concreteType": "File",
+            "plural": false,
+            "selections": (v1/*: any*/)
           }
         ]
       }
@@ -84,33 +142,31 @@ return {
       {
         "kind": "LinkedField",
         "alias": null,
-        "name": "fileEdited",
+        "name": "fileChange",
         "storageKey": null,
         "args": null,
-        "concreteType": "File",
+        "concreteType": "FileSubscription",
         "plural": false,
         "selections": [
-          (v0/*: any*/),
           {
-            "kind": "ScalarField",
+            "kind": "LinkedField",
             "alias": null,
-            "name": "name",
+            "name": "fileEdited",
+            "storageKey": null,
             "args": null,
-            "storageKey": null
+            "concreteType": "File",
+            "plural": false,
+            "selections": (v2/*: any*/)
           },
           {
-            "kind": "ScalarField",
+            "kind": "LinkedField",
             "alias": null,
-            "name": "docType",
+            "name": "fileCreated",
+            "storageKey": null,
             "args": null,
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "name": "createdAt",
-            "args": null,
-            "storageKey": null
+            "concreteType": "File",
+            "plural": false,
+            "selections": (v2/*: any*/)
           }
         ]
       }
@@ -120,11 +176,11 @@ return {
     "operationKind": "subscription",
     "name": "FilesSubscription",
     "id": null,
-    "text": "subscription FilesSubscription {\n  fileEdited {\n    id\n    ...File_file\n  }\n}\n\nfragment File_file on File {\n  id\n  name\n  docType\n  createdAt\n}\n",
+    "text": "subscription FilesSubscription {\n  fileChange {\n    fileEdited {\n      id\n      ...File_file\n    }\n    fileCreated {\n      id\n      ...File_file\n    }\n  }\n}\n\nfragment File_file on File {\n  id\n  name\n  docType\n  createdAt\n}\n",
     "metadata": {}
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '02940771530302901b5c78a865f41091';
+(node/*: any*/).hash = 'f955cb84de26752c8a37e79d08bd10d4';
 module.exports = node;

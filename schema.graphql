@@ -11,6 +11,11 @@ input FileInput {
   docType: String
 }
 
+type FileSubscription {
+  fileEdited: File
+  fileCreated: File
+}
+
 type Folder {
   id: ID!
   name: String
@@ -31,4 +36,6 @@ type Query {
 
 type Subscription {
   fileEdited: File
+  fileCreated: File
+  fileChange: FileSubscription
 }

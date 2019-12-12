@@ -11,14 +11,20 @@ import requestSubscription from '../relay/requestSubscription';
 
 const INITIAL_STATE = {
   dialogOpen: false,
-  selectedFile: null
+  selectedFile: null,
 };
 
 const subscription = graphql`
   subscription FilesSubscription {
-    fileEdited {
-      id
-      ...File_file
+    fileChange {
+      fileEdited {
+        id
+        ...File_file
+      }
+      fileCreated {
+        id
+        ...File_file
+      }
     }
   }
 `;
@@ -27,7 +33,7 @@ class Files extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...INITIAL_STATE
+      ...INITIAL_STATE,
     };
   }
 
@@ -35,8 +41,19 @@ class Files extends Component {
     this.subscription = requestSubscription({
       subscription,
       variables: {},
+      updater: (store, data) => {
+        const {
+          fileChange: { fileCreated },
+        } = data;
+        if (fileCreated) {
+          const fileInStore = store.get(fileCreated.id);
+          const root = store.get('client:root');
+          const files = root.getLinkedRecords('files');
+          root.setLinkedRecords([fileInStore, ...files], 'files');
+        }
+      },
       onError: error => console.error(error),
-      onCompleted: () => console.log('connection ended')
+      onCompleted: () => console.log('connection ended'),
     });
   }
 
@@ -74,7 +91,7 @@ class Files extends Component {
             display: 'flex',
             alignItems: ' center',
             justifyContent: 'flex-end',
-            marginBottom: '16px'
+            marginBottom: '16px',
           }}
         >
           <IconButton onClick={this.openDialog} style={{ fontSize: '1rem' }}>
@@ -92,7 +109,7 @@ class Files extends Component {
 
 Files.propTypes = {
   files: PropTypes.array.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 };
 
 const router = withRouter(Files);
@@ -105,5 +122,5 @@ export default withQuery(router, {
         ...File_file
       }
     }
-  `
+  `,
 });
